@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: vivekatechlabs
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:${DB_PASSWORD:-postgres}@db:5432/vivekatechlabs?schema=public
+      - NEXT_PUBLIC_SITE_URL=https://vivekanandatechnologylabs.com
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vtl-network
+
+  db:
+    image: postgres:16-alpine
+    container_name: vivekatechlabs-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
+      - POSTGRES_DB=vivekatechlabs
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vtl-network
+
+volumes:
+  pgdata:
+
+networks:
+  vtl-network:
+    driver: bridge

@@ -1,26 +1,106 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ── Reset & Base ──────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* ── Selection ─────────────────────────────────────────────────────────── */
+::selection {
+    background-color: #c75b1a33;
+    color: #2c1810;
+}
+
+/* ── Focus Styles ──────────────────────────────────────────────────────── */
+:focus-visible {
+    outline: 2px solid #c75b1a;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fdf8f0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c75b1a66;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #c75b1a99;
+}
+
+/* ── Animations ────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.8s ease both;
+}
+
+/* ── Link Styles ───────────────────────────────────────────────────────── */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ── Image Styles ──────────────────────────────────────────────────────── */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }

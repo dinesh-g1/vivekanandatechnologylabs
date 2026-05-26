@@ -1,0 +1,18 @@
+# .dockerignore
+node_modules
+.git
+.gitignore
+.next
+.env
+.env.*
+!.env.example
+README.md
+.dockerignore
+Dockerfile
+docker-compose*.yml
+*.md
+.npm
+.cache
+coverage
+test
+tests

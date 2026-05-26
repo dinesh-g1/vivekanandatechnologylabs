@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Contact Form Submissions ──────────────────────────────────────────────
+model ContactSubmission {
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  organization String?
+  subject      String
+  message      String
+  status       String   @default("new") // new, read, replied, archived
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("contact_submissions")
+}
+
+// ── Newsletter Subscribers ────────────────────────────────────────────────
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("subscribers")
+}
+
+// ── Business Pages (Extensible for future) ────────────────────────────────
+model BusinessPage {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  tagline     String
+  description String   @db.Text
+  longDescription String @db.Text @map("long_description")
+  industry    String
+  website     String?
+  status      String   @default("planned") // planned, in-progress, live
+  logoUrl     String?  @map("logo_url")
+  metadata    Json?    // For flexible extra data
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("business_pages")
+}
+
+// ── Industry Pages (Extensible for future) ────────────────────────────────
+model IndustryPage {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  nameSanskrit String? @map("name_sanskrit")
+  description String   @db.Text
+  icon        String?
+  color       String?
+  status      String   @default("upcoming") // active, upcoming
+  order       Int      @default(0)
+  metadata    Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("industry_pages")
+}
